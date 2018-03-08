@@ -20,7 +20,7 @@ setup(
 
     packages=['pywe_miniapp'],
     py_modules=[],
-    install_requires=['pywe_base', 'pywe_decrypt'],
+    install_requires=['pywe_base', 'pywe_decrypt', 'pywe_storage'],
 
     classifiers=[
         "License :: OSI Approved :: BSD License",
