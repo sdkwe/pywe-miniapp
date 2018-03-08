@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from pywe_base import BaseWechat
-from pywe_storage import MemoryStorage
-
 from pywe_decrypt import decrypt
+from pywe_storage import MemoryStorage
 
 
 class MiniApp(BaseWechat):
-    def __init__(self, storage=None):
+    def __init__(self, appid=None, storage=None):
         super(MiniApp, self).__init__()
+        self.appid = appid
         self.storage = storage or MemoryStorage()
         # wx.login(OBJECT), Refer: https://mp.weixin.qq.com/debug/wxadoc/dev/api/api-login.html
         # wx.getUserInfo(OBJECT), Refer: https://mp.weixin.qq.com/debug/wxadoc/dev/api/open.html#wxgetuserinfoobject
@@ -20,6 +20,7 @@ class MiniApp(BaseWechat):
 
     def get_session_key(self, appid=None, secret=None, code=None, grant_type='authorization_code', storage=None):
         # Update storage
+        self.appid = appid or self.appid
         self.storage = storage or self.storage
         # Fetch sessionKey
         session_key = '' if code else self.storage.get(self.sessionKey)
