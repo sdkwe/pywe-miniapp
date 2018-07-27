@@ -18,6 +18,9 @@ class MiniApp(BaseWechat):
     def sessionKey(self):
         return '{0}:sessionKey'.format(self.appid)
 
+    def get_session_info(self, appid=None, secret=None, code=None, grant_type='authorization_code'):
+        return self.get(self.JSCODE2SESSION, appid=appid or self.appid, secret=secret, code=code, grant_type=grant_type)
+
     def get_session_key(self, appid=None, secret=None, code=None, grant_type='authorization_code', storage=None):
         # Update storage
         self.appid = appid or self.appid
@@ -25,7 +28,7 @@ class MiniApp(BaseWechat):
         # Fetch sessionKey
         session_key = '' if code else self.storage.get(self.sessionKey)
         if not session_key:
-            session_key = self.get(self.JSCODE2SESSION, appid=appid, secret=secret, code=code, grant_type=grant_type).get('session_key', '')
+            session_key = get_session_info(appid=appid, secret=secret, code=code, grant_type=grant_type).get('session_key', '')
             self.storage.set(self.sessionKey, session_key)
         return session_key
 
@@ -41,6 +44,7 @@ class MiniApp(BaseWechat):
 
 
 miniapp = MiniApp()
+get_session_info = miniapp.get_session_info
 get_session_key = miniapp.get_session_key
 get_userinfo = miniapp.get_userinfo
 get_phone_number = miniapp.get_phone_number
