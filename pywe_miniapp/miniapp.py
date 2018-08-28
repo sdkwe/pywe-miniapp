@@ -18,7 +18,7 @@ class MiniApp(BaseWechat):
     def sessionKey(self, unid=None):
         # https://developers.weixin.qq.com/community/develop/doc/00088a409fc308b765475fa4351000?highLine=session_key
         # sessionKey 非共用
-        return '{0}:{1}:sessionKey'.format(unid or '', self.appid)
+        return '{0}:{1}:sessionKey'.format(self.appid, unid or '')
 
     def update_params(self, appid=None, secret=None, storage=None):
         self.appid = appid or self.appid
