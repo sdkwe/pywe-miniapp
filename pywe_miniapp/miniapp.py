@@ -48,7 +48,7 @@ class MiniApp(BaseWechat):
         self.update_params(appid=appid, secret=secret, storage=storage)
         # Fetch sessionKey
         # From storage
-        session_key = '' if code or unid else self.storage.get(self.sessionKey(unid=unid))
+        session_key = '' if code or not unid else self.storage.get(self.sessionKey(unid=unid))
         # From request api
         if not session_key:
             session_key = get_session_info(appid=self.appid, secret=self.secret, code=code, grant_type=grant_type, storage=self.storage).get('session_key', '')
