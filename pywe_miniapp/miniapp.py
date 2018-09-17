@@ -51,7 +51,7 @@ class MiniApp(BaseWechat):
         session_key = '' if code or not unid else self.storage.get(self.sessionKey(unid=unid))
         # From request api
         if not session_key:
-            session_key = get_session_info(appid=self.appid, secret=self.secret, code=code, grant_type=grant_type, storage=self.storage).get('session_key', '')
+            session_key = self.get_session_info(appid=self.appid, secret=self.secret, code=code, grant_type=grant_type, storage=self.storage).get('session_key', '')
         return session_key
 
     def get_userinfo(self, appid=None, secret=None, code=None, grant_type='authorization_code', unid=None, session_key=None, encryptedData=None, iv=None, storage=None):
@@ -59,7 +59,7 @@ class MiniApp(BaseWechat):
         self.update_params(appid=appid, secret=secret, storage=storage)
         # If not encryptedData return session_info
         if not encryptedData:
-            return get_session_info(appid=self.appid, secret=self.secret, code=code, grant_type=grant_type, unid=unid, storage=self.storage)
+            return self.get_session_info(appid=self.appid, secret=self.secret, code=code, grant_type=grant_type, unid=unid, storage=self.storage)
         # Update sessionKey
         if not session_key:
             session_key = self.get_session_key(appid=self.appid, secret=self.secret, code=code, grant_type=grant_type, unid=unid, storage=self.storage)
@@ -70,7 +70,7 @@ class MiniApp(BaseWechat):
         self.update_params(appid=appid, secret=secret, storage=storage)
         # If not encryptedData return session_info
         if not encryptedData:
-            return get_session_info(appid=self.appid, secret=self.secret, code=code, grant_type=grant_type, unid=unid, storage=self.storage)
+            return self.get_session_info(appid=self.appid, secret=self.secret, code=code, grant_type=grant_type, unid=unid, storage=self.storage)
         # Update sessionKey
         if not session_key:
             session_key = self.get_session_key(appid=self.appid, secret=self.secret, code=code, grant_type=grant_type, unid=unid, storage=self.storage)
