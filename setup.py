@@ -10,7 +10,7 @@ setup(
     name='pywe-miniapp',
     version=version,
     keywords='Wechat Weixin Mini App',
-    description='Wechat Module for Python for MiniApp.',
+    description='Wechat MiniProgram Module for Python.',
     long_description=open('README.rst').read(),
 
     url='https://github.com/sdkwe/pywe-miniapp',

@@ -34,6 +34,25 @@ class MiniApp(BaseWechat):
         return False
 
     def get_session_info(self, appid=None, secret=None, code=None, grant_type='authorization_code', unid=None, storage=None):
+        """
+        // 正常返回的JSON数据包
+        {
+            "openid": "OPENID",
+            "session_key": "SESSIONKEY",
+        }
+
+        // 满足UnionID返回条件时，返回的JSON数据包
+        {
+            "openid": "OPENID",
+            "session_key": "SESSIONKEY",
+            "unionid": "UNIONID"
+        }
+        // 错误时返回JSON数据包(示例为Code无效)
+        {
+            "errcode": 40029,
+            "errmsg": "invalid code"
+        }
+        """
         # Update params
         self.update_params(appid=appid, secret=secret, storage=storage)
         # Fetch sessionInfo
@@ -55,6 +74,23 @@ class MiniApp(BaseWechat):
         return session_key
 
     def get_userinfo(self, appid=None, secret=None, code=None, grant_type='authorization_code', unid=None, session_key=None, encryptedData=None, iv=None, storage=None):
+        """
+        {
+            "avatarUrl": "avatarUrl",
+            "city": "city",
+            "country": "country",  # CN
+            "gender": gender,  # 0 or 1
+            "language": "language",  # zh_CN
+            "nickName": "nickName",
+            "openId": "openId",
+            "province": "province",
+            "unionId": "unionId",
+            "watermark": {
+                "appid": "appid",
+                "timestamp": timestamp  # 1477314187
+            }
+        }
+        """
         # Update params
         self.update_params(appid=appid, secret=secret, storage=storage)
         # If not encryptedData return session_info

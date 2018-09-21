@@ -1,6 +1,6 @@
 # pywe-miniapp
 
-Wechat Module for Python for MiniApp.
+Wechat MiniProgram Module for Python.
 
 # Installation
 
