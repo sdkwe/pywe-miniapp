@@ -29,9 +29,7 @@ class MiniApp(BaseWechat):
         # Update params
         self.update_params(appid=appid, secret=secret, storage=storage)
         # Store sessionKey
-        if session_key and unid:
-            return self.storage.set(self.sessionKey(unid=unid), session_key)
-        return False
+        return self.storage.set(self.sessionKey(unid=unid), session_key)
 
     def get_session_info(self, appid=None, secret=None, code=None, grant_type='authorization_code', unid=None, storage=None):
         """
@@ -62,9 +60,12 @@ class MiniApp(BaseWechat):
             self.storage.set(self.sessionKey(unid=unid), session_info.get('session_key', ''))
         return session_info
 
-    def get_session_key(self, appid=None, secret=None, code=None, grant_type='authorization_code', unid=None, storage=None):
+    def get_session_key(self, appid=None, secret=None, code=None, grant_type='authorization_code', unid=None, storage=None, only_frorage=False):
         # Update params
         self.update_params(appid=appid, secret=secret, storage=storage)
+        # Only get sessionKey from storage
+        if only_frorage:
+            return self.storage.get(self.sessionKey(unid=unid))
         # Fetch sessionKey
         # From storage
         session_key = '' if code or not unid else self.storage.get(self.sessionKey(unid=unid))
