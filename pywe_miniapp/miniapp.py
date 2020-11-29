@@ -13,6 +13,7 @@ class MiniApp(BaseWechat):
         self.storage = storage or MemoryStorage()
         # wx.login(Object object), Refer: https://developers.weixin.qq.com/miniprogram/dev/api/open-api/login/wx.login.html
         # wx.getUserInfo(Object object), Refer: https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserInfo.html
+        # 获取手机号, Refer: https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getPhoneNumber.html
         # wx.getShareInfo(Object object), Refer: https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.getShareInfo.html
         self.JSCODE2SESSION = self.API_DOMAIN + '/sns/jscode2session?appid={appid}&secret={secret}&js_code={code}&grant_type={grant_type}'
 
