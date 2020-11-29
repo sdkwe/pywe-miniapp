@@ -6,4 +6,5 @@ from pywe_miniapp.miniapp import (
     get_session_key,
     get_userinfo,
     get_phone_number,
+    get_shareinfo,
 )

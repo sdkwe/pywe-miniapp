@@ -11,8 +11,9 @@ class MiniApp(BaseWechat):
         self.appid = appid
         self.secret = secret
         self.storage = storage or MemoryStorage()
-        # wx.login(OBJECT), Refer: https://mp.weixin.qq.com/debug/wxadoc/dev/api/api-login.html
-        # wx.getUserInfo(OBJECT), Refer: https://mp.weixin.qq.com/debug/wxadoc/dev/api/open.html#wxgetuserinfoobject
+        # wx.login(Object object), Refer: https://developers.weixin.qq.com/miniprogram/dev/api/open-api/login/wx.login.html
+        # wx.getUserInfo(Object object), Refer: https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserInfo.html
+        # wx.getShareInfo(Object object), Refer: https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.getShareInfo.html
         self.JSCODE2SESSION = self.API_DOMAIN + '/sns/jscode2session?appid={appid}&secret={secret}&js_code={code}&grant_type={grant_type}'
 
     def sessionKey(self, unid=None):
@@ -113,6 +114,22 @@ class MiniApp(BaseWechat):
             session_key = self.get_session_key(appid=self.appid, secret=self.secret, code=code, grant_type=grant_type, unid=unid, storage=self.storage)
         return decrypt(appId=self.appid, sessionKey=session_key, encryptedData=encryptedData, iv=iv)
 
+    def get_shareinfo(self, appid=None, secret=None, code=None, grant_type='authorization_code', unid=None, session_key=None, encryptedData=None, iv=None, storage=None):
+        """
+        {
+            "openGId": "OPENGID"
+        }
+        """
+        # Update params
+        self.update_params(appid=appid, secret=secret, storage=storage)
+        # If not encryptedData return session_info
+        if not encryptedData:
+            return self.get_session_info(appid=self.appid, secret=self.secret, code=code, grant_type=grant_type, unid=unid, storage=self.storage)
+        # Update sessionKey
+        if not session_key:
+            session_key = self.get_session_key(appid=self.appid, secret=self.secret, code=code, grant_type=grant_type, unid=unid, storage=self.storage)
+        return decrypt(appId=self.appid, sessionKey=session_key, encryptedData=encryptedData, iv=iv)
+
 
 miniapp = MiniApp()
 store_session_key = miniapp.store_session_key
@@ -120,3 +137,4 @@ get_session_info = miniapp.get_session_info
 get_session_key = miniapp.get_session_key
 get_userinfo = miniapp.get_userinfo
 get_phone_number = miniapp.get_phone_number
+get_shareinfo = miniapp.get_shareinfo
